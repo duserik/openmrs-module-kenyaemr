@@ -22,9 +22,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.ModuleFactory;
-import org.openmrs.module.htmlformentry.HtmlFormEntryUtil;
 import org.openmrs.module.kenyaemr.datatype.LocationDatatype;
-import org.openmrs.module.kenyaemr.form.handler.LabTestsTagHandler;
 
 import java.io.InputStream;
 
@@ -38,6 +36,8 @@ public class KenyaEmrActivator implements ModuleActivator {
 	private static final String PACKAGES_FILENAME = "packages.xml";
 
 	private static final String REGIMENS_FILENAME = "regimens.xml";
+
+	private static final String LABTESTS_FILENAME = "lab.xml";
 
 	static {
 		// Possibly bad practice but we really want to see the log messages
@@ -83,7 +83,9 @@ public class KenyaEmrActivator implements ModuleActivator {
 
 			log.info("Setup core regimens");
 
-			HtmlFormEntryUtil.getService().addHandler("labTests", new LabTestsTagHandler());
+			setupStandardLabTests();
+
+			log.info("Setup core lab tests");
 
 		} catch (Exception ex) {
 			log.error("Cancelling module startup due to error");
@@ -132,7 +134,6 @@ public class KenyaEmrActivator implements ModuleActivator {
 	protected boolean setupStandardMetadata() {
 		try {
 			InputStream stream = getClass().getClassLoader().getResourceAsStream(PACKAGES_FILENAME);
-
 			return KenyaEmr.getInstance().getMetadataManager().loadPackagesFromXML(stream, null);
 		}
 		catch (Exception ex) {
@@ -141,11 +142,16 @@ public class KenyaEmrActivator implements ModuleActivator {
 	}
 
 	/**
-	 * Setup the standard forms
+	 * Setup the standard lab tests
 	 */
-	protected void setupStandardForms() {
-		// These could be loaded from XML instead of hard-coding in the manager class
-		KenyaEmr.getInstance().getFormManager().setupStandardForms();
+	protected void setupStandardLabTests() {
+		try {
+			InputStream stream = getClass().getClassLoader().getResourceAsStream(LABTESTS_FILENAME);
+			KenyaEmr.getInstance().getLabManager().loadTestsFromXML(stream);
+		}
+		catch (Exception ex) {
+			throw new RuntimeException("Cannot find " + LABTESTS_FILENAME + ". Make sure it's in api/src/main/resources");
+		}
 	}
 
 	/**

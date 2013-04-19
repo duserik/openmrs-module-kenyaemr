@@ -1,0 +1,14 @@
+<!--
+	Defines the Kenya EMR laboratory tests
+-->
+<lab xmlns="http://www.kenyaemr.org/lab">
+	<tests>
+		<category name="General">
+			<test conceptUuid="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Weight -->
+			<test conceptUuid="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Viral load -->
+		</category>
+		<category name="Other">
+			<test conceptUuid="302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Urinalysis -->
+		</category>
+	</tests>
+</lab>

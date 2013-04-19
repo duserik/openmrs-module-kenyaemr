@@ -32,6 +32,7 @@ import org.openmrs.module.kenyaemr.KenyaEmr;
 import org.openmrs.module.kenyaemr.MetadataConstants;
 import org.openmrs.module.kenyaemr.form.FormDescriptor.Frequency;
 import org.openmrs.module.kenyaemr.form.FormDescriptor.Gender;
+import org.openmrs.module.kenyaemr.form.handler.LabTestsTagHandler;
 import org.openmrs.ui.framework.resource.ResourceFactory;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,10 +83,11 @@ public class FormManager {
 			log.info("Found form descriptor:" + formDescriptor.getFormUuid());
 		}
 
-		/**
-		 * Because we haven't yet made beans for all forms...
-		 */
+		// Because we haven't yet made beans for all forms...
 		setupStandardForms();
+
+		// Register custom tags
+		HtmlFormEntryUtil.getService().addHandler("labTests", new LabTestsTagHandler());
 	}
 
 	/**
