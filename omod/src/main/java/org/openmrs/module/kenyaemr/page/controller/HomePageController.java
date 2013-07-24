@@ -40,12 +40,6 @@ public class HomePageController {
 	
 	public String controller(@RequestParam(required=false, value="patientId") Patient patient, PageModel model, UiUtils ui, HttpSession session, @SpringBean KenyaUiUtils kenyaUi) {
 
-		// Redirect to setup page if module is not yet configured
-		if (Context.getService(KenyaEmrService.class).isSetupRequired()) {
-			kenyaUi.notifySuccess(session, "First-Time Setup Needed");
-			return "redirect:" + ui.pageLink(EmrConstants.MODULE_ID, "adminFirstTimeSetup");
-		}
-
 		// Get apps for the current user
 		List<AppDescriptor> apps = Context.getService(AppFrameworkService.class).getAppsForUser(Context.getAuthenticatedUser());
 

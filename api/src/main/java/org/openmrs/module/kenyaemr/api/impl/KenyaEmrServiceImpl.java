@@ -69,7 +69,8 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	@Override
 	public boolean isSetupRequired() {
 		// Assuming that it's not possible to _un_configure after having configured, i.e. after the first
-		// time we return true we can save time by not re-checking things
+		// time we return true we can save time by not re-checking things. This is important because this
+		// method gets called on every page request
 		if (!setupRequired) {
 			return false;
 		}
