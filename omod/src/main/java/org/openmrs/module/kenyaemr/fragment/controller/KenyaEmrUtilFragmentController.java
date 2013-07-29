@@ -32,6 +32,7 @@ import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDa
 import org.openmrs.module.kenyacore.regimen.RegimenChange;
 import org.openmrs.module.kenyacore.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
+import org.openmrs.module.kenyaui.annotation.PublicAction;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -48,6 +49,7 @@ public class KenyaEmrUtilFragmentController {
 	 * Checks if current user session is authenticated
 	 * @return simple object {authenticated: true/false}
 	 */
+	@PublicAction
 	public SimpleObject isAuthenticated() {
 		return SimpleObject.create("authenticated", Context.isAuthenticated());
 	}
@@ -58,6 +60,7 @@ public class KenyaEmrUtilFragmentController {
 	 * @param password the password
 	 * @return simple object {authenticated: true/false}
 	 */
+	@PublicAction
 	public SimpleObject authenticate(@RequestParam("username") String username, @RequestParam("password") String password) {
 		try {
 			Context.authenticate(username, password);
