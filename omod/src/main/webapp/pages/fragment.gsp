@@ -1,0 +1,1 @@
+<%= ui.includeFragment(fragmentProvider, fragment, configuration) %>

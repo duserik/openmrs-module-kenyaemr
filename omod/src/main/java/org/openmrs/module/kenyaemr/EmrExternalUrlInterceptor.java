@@ -49,6 +49,11 @@ public class EmrExternalUrlInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 
+		// Allow any direct fragment requests
+		if (handler instanceof FragmentRequestController) {
+			return true;
+		}
+
 		// Allow any request to /module/kenyaemr/generateField.htm
 		if (handler instanceof FieldGeneratorController) {
 			return true;
