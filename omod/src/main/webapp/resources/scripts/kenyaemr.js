@@ -15,7 +15,7 @@ kenyaui.configureSearch('person', {
 	searchProvider: 'kenyaemr',
 	searchFragment: 'search',
 	format: function(person) {
-		var icon = (person.isPatient ? 'patient' : 'person') + '_' + (person.gender == 'M' ? 'm' : 'f');
+		var icon = (person.isPatient ? 'patient' : 'person') + '_' + person.gender;
 		var src = ui.resourceLink('kenyaui', 'images/glyphs/' + icon + '.png');
 		var html = '<img src="' + src + '" class="ke-glyph" /> ' + person.name;
 		if (person.age) {

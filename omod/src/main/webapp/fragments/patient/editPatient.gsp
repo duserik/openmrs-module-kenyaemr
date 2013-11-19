@@ -1,7 +1,7 @@
 <%
-	ui.decorateWith("kenyaui", "panel", [ heading: (command.original ? "Edit" : "Create") + " Patient", frameOnly: true ])
+	ui.decorateWith("kenyaui", "panel", [ heading: (command.original?.patient ? "Edit" : "Step 2: Register") + " Patient", frameOnly: true ])
 
-	def returnUrl = config.returnUrl ?: (command.original ? ui.pageLink("kenyaemr", "registration/registrationViewPatient", [patientId: command.original.patientId]) : ui.pageLink("kenyaemr", "registration/registrationHome"))
+	def returnUrl = config.returnUrl ?: (command.original ? ui.pageLink("kenyaemr", "registration/registrationViewPatient", [patientId: command.original.id]) : ui.pageLink("kenyaemr", "registration/registrationHome"))
 
 	def femaleChecked = command.gender == 'F' ? 'checked="true"' : ''
 	def maleChecked = command.gender == 'M' ? 'checked="true"' : ''
@@ -49,7 +49,9 @@
 
 	def addressFieldRows = [
 			[
-					[ object: command, property: "telephoneContact.value", label: ui.format(command.telephoneContact.attributeType) ],
+					[ object: command, property: "telephoneContact.value", label: ui.format(command.telephoneContact.attributeType) ]
+			],
+			[
 					[ object: command, property: "personAddress.address1", label: "Postal Address", config: [ size: 60 ] ],
 					[ object: command, property: "personAddress.country", label: "County", config: [ size: 60 ] ],
 					[ object: command, property: "subChiefName.value", label: ui.format(command.subChiefName.attributeType) ]
@@ -73,7 +75,7 @@
 
 <form id="edit-patient-form" method="post" action="${ ui.actionLink("kenyaemr", "patient/editPatient", "savePatient") }">
 	<% if (command.original) { %>
-		<input type="hidden" name="patientId" value="${ command.original.patientId }"/>
+		<input type="hidden" name="personId" value="${ command.original.id }"/>
 	<% } %>
 
 	<div class="ke-panel-content">
@@ -154,11 +156,11 @@ jq(function() {
 
 	kenyaui.setupAjaxPost('edit-patient-form', {
 		onSuccess: function(data) {
-			if (data.patientId) {
+			if (data.id) {
 				<% if (returnUrl.indexOf('patientId') > 0) { %>
 				ui.navigate('${ returnUrl }');
 				<% } else { %>
-				ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.patientId });
+				ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.id });
 				<% } %>
 			} else {
 				kenyaui.notifyError('Saving patient was successful, but unexpected response');
